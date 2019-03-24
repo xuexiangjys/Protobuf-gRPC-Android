@@ -120,6 +120,97 @@ dependencies {
 
 ![](https://github.com/xuexiangjys/ProtoBuf-gRPC-Android/blob/master/art/2.png)
 
+### 普通请求
+
+在测试demo中的请求前，请务必先运行[服务端的代码](https://github.com/grpc/grpc-java/blob/master/examples/src/main/java/io/grpc/examples/helloworld/HelloWorldServer.java)。
+
+1.构建Channel
+
+```
+/**
+ * 构建一条普通的Channel
+ *
+ * @param host 主机服务地址
+ * @param port 端口
+ * @return
+ */
+public static ManagedChannel newChannel(String host, int port) {
+    return ManagedChannelBuilder.forAddress(host, port)
+            .usePlaintext()
+            .build();
+}
+```
+
+2.构建服务请求API代理
+
+```
+//构建通道
+final ManagedChannel channel = gRPCChannelUtils.newChannel(host, port);
+//构建服务api代理
+mStub = GreeterGrpc.newStub(channel);
+```
+
+3.构建请求实体
+
+```
+//HelloRequest是自动生成的实体类
+HelloRequest request = HelloRequest.newBuilder().setName(message).build();
+```
+
+4.执行请求
+
+```
+//进行请求
+mStub.sayHello(request, new SimpleStreamObserver<HelloReply>() {
+    @Override
+    protected void onSuccess(HelloReply value) {
+        tvGrpcResponse.setText(value.getMessage());
+        btnSend.setEnabled(true);
+    }
+    @MainThread
+    @Override
+    public void onError(Throwable t) {
+        super.onError(t);
+        tvGrpcResponse.setText(Log.getStackTraceString(t));
+        btnSend.setEnabled(true);
+    }
+    @Override
+    public void onCompleted() {
+        super.onCompleted();
+        gRPCChannelUtils.shutdown(channel); //关闭通道
+    }
+});
+```
+
+### Https请求
+
+与普通请求相比，就在第一步建立通道有所不同，需要设置CA证书，其他步骤都相同。
+
+```
+/**
+ * 构建一条SSLChannel
+ *
+ * @param host         主机服务地址
+ * @param port         端口
+ * @param authority    域名
+ * @param certificates 证书
+ * @return
+ */
+public static ManagedChannel newSSLChannel(String host, int port, String authority, InputStream... certificates) {
+    HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(certificates);
+    return OkHttpChannelBuilder.forAddress(host, port)
+            //overrideAuthority非常重要，必须设置调用
+            .overrideAuthority(authority)
+            .sslSocketFactory(sslParams.sSLSocketFactory)
+            .build();
+}
+```
 
 
+## 联系方式
 
+[![](https://img.shields.io/badge/点击一键加入QQ交流群-602082750-blue.svg)](http://shang.qq.com/wpa/qunwpa?idkey=9922861ef85c19f1575aecea0e8680f60d9386080a97ed310c971ae074998887)
+
+![](https://github.com/xuexiangjys/Resource/blob/master/img/qq/qq_group.jpg)
+
+![](https://github.com/xuexiangjys/Resource/blob/master/img/qq/winxin.jpg)

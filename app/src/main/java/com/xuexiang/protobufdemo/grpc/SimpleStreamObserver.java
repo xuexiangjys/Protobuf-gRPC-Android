@@ -1,7 +1,6 @@
 package com.xuexiang.protobufdemo.grpc;
 
-import android.support.annotation.MainThread;
-
+import com.xuexiang.xaop.annotation.MainThread;
 import com.xuexiang.xutil.tip.ToastUtils;
 
 import io.grpc.stub.StreamObserver;

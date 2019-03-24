@@ -1,6 +1,7 @@
 package com.xuexiang.protobufdemo.grpc;
 
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -50,5 +51,22 @@ public final class gRPCChannelUtils {
                 .build();
     }
 
+
+    /**
+     * 关闭Channel
+     *
+     * @param channel 端口
+     * @return
+     */
+    public static boolean shutdown(ManagedChannel channel) {
+        if (channel != null) {
+            try {
+                return channel.shutdown().awaitTermination(1, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        return false;
+    }
 
 }

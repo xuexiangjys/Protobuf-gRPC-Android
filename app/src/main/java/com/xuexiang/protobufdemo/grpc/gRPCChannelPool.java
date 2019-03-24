@@ -39,7 +39,7 @@ public class gRPCChannelPool {
      *
      * @return
      */
-    public static gRPCChannelPool getInstance() {
+    public static gRPCChannelPool get() {
         if (sInstance == null) {
             synchronized (gRPCChannelPool.class) {
                 if (sInstance == null) {
@@ -57,8 +57,8 @@ public class gRPCChannelPool {
      * @param port 服务器端口
      */
     public static void init(String host, int port) {
-        getInstance().mHost = host;
-        getInstance().mPort = port;
+        get().mHost = host;
+        get().mPort = port;
     }
 
     //============getChannel===========//
