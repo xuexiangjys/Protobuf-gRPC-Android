@@ -20,7 +20,8 @@ public class MainFragment extends XPageContainerListFragment {
         return new Class[] {
                 //此处填写fragment
                 CommonChannelFragment.class,
-                SSLChannelFragment.class
+                SSLChannelFragment.class,
+                BRPCFragment.class
         };
     }
 

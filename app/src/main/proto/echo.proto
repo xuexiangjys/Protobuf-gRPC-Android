@@ -1,0 +1,21 @@
+syntax="proto2";
+package example;
+
+option java_multiple_files = true;
+option java_package = "com.xuexiang.brpcdemo";
+option java_outer_classname = "EchoProto";
+option objc_class_prefix = "Echo";
+
+option cc_generic_services = true;
+
+message EchoRequest {
+      required string message = 1;
+};
+
+message EchoResponse {
+      required string message = 1;
+};
+
+service EchoService {
+      rpc Echo(EchoRequest) returns (EchoResponse);
+};
