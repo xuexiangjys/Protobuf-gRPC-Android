@@ -206,6 +206,9 @@ public static ManagedChannel newSSLChannel(String host, int port, String authori
 }
 ```
 
+## 拓展阅读
+
+* [如果在Mac上安装BRPC](./HOW_TO_INSTALL_BRPC.md)
 
 ## 联系方式
 
