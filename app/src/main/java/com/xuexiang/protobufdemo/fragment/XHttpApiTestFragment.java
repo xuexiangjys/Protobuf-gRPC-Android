@@ -57,7 +57,7 @@ public class XHttpApiTestFragment extends XPageSimpleListFragment {
         //构建请求实体
         XHttpApi.LoginRequest request = XHttpApi.LoginRequest.newBuilder()
                 .setLoginName("xuexiang")
-                .setPassword("123456")
+                .setPassword("1234567")
                 .build();
         //进行请求
         mStub.login(request, new SimpleStreamObserver<XHttpApi.LoginReply>() {
