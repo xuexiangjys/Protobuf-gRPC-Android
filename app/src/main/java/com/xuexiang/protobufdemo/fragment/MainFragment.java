@@ -21,7 +21,8 @@ public class MainFragment extends XPageContainerListFragment {
                 //此处填写fragment
                 CommonChannelFragment.class,
                 SSLChannelFragment.class,
-                BRPCFragment.class
+                BRPCFragment.class,
+                XHttpApiTestFragment.class
         };
     }
 

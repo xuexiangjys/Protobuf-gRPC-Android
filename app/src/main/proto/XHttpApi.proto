@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option java_package = "com.xuexiang.springbootgrpc";
+
+package XHttp;
+
+service APIService {
+    rpc login (LoginRequest) returns (LoginReply) {}
+}
+
+// 登陆请求
+message LoginRequest {
+    string loginName = 1;
+    string password = 2;
+}
+
+// 登陆返回
+message LoginReply {
+    User user = 1;
+    string token = 2;
+}
+
+// 用户信息
+message User {
+    int32 userId = 1;
+    string loginName = 2;
+    string password = 3;
+    string name = 4;
+    int32 gender = 5;
+    int32 age = 6;
+    string phone = 7;
+}
