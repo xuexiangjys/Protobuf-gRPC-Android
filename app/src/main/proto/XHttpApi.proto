@@ -6,7 +6,15 @@ package XHttp;
 
 service APIService {
     rpc login (LoginRequest) returns (LoginReply) {}
+
+    rpc getAllUser(Empty) returns (UserList) {}
 }
+
+// 空请求，无参数
+message Empty {
+
+}
+
 
 // 登陆请求
 message LoginRequest {
@@ -29,4 +37,9 @@ message User {
     int32 gender = 5;
     int32 age = 6;
     string phone = 7;
+}
+
+// 用户信息集合
+message UserList {
+    repeated User users = 1;
 }

@@ -2,4 +2,7 @@
 
     <string name="app_name">ProtoBuf-gRPC-Android</string>
 
+
+    <string name="service_api_key">service_api_key</string>
+    <string name="default_service_api">192.168.0.118</string>
 </resources>
