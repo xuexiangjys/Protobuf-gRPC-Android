@@ -5,9 +5,18 @@ option java_package = "com.xuexiang.springbootgrpc";
 package XHttp;
 
 service APIService {
+    //登陆请求
     rpc login (LoginRequest) returns (LoginReply) {}
 
+    //获取所有的用户信息
     rpc getAllUser(Empty) returns (UserList) {}
+
+    //文件上传
+    rpc uploadFileStream(stream FileInfo) returns (stream FilePath) {}
+
+    //文件上传
+    rpc uploadFile(FilePackage) returns (UploadFileReply) {}
+
 }
 
 // 空请求，无参数
@@ -42,4 +51,25 @@ message User {
 // 用户信息集合
 message UserList {
     repeated User users = 1;
+}
+
+//文件包
+message FilePackage {
+    repeated FileInfo file = 1;
+}
+
+// 文件信息
+message FileInfo {
+    string fileName = 1; //文件名
+    uint64 size = 2; //文件大小
+    bytes data = 3; //数据
+}
+
+message FilePath {
+    string path = 1; //文件保存的路径
+}
+
+//文件上传返回
+message UploadFileReply {
+    repeated string path = 1; //文件保存的路径
 }
