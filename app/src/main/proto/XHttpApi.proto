@@ -13,9 +13,13 @@ service APIService {
 
     //文件上传
     rpc uploadFileStream(stream FileInfo) returns (stream FilePath) {}
+    //文件下载
+    rpc downloadStream(stream FilePath) returns (stream FileInfo) {}
 
     //文件上传
-    rpc uploadFile(FilePackage) returns (UploadFileReply) {}
+    rpc uploadFile(FilePackage) returns (FilePathPackage) {}
+    //文件下载
+    rpc download(FilePathPackage) returns (FilePackage) {}
 
 }
 
@@ -53,11 +57,6 @@ message UserList {
     repeated User users = 1;
 }
 
-//文件包
-message FilePackage {
-    repeated FileInfo file = 1;
-}
-
 // 文件信息
 message FileInfo {
     string fileName = 1; //文件名
@@ -69,7 +68,12 @@ message FilePath {
     string path = 1; //文件保存的路径
 }
 
-//文件上传返回
-message UploadFileReply {
+//文件包
+message FilePackage {
+    repeated FileInfo file = 1;
+}
+
+//文件路径包
+message FilePathPackage {
     repeated string path = 1; //文件保存的路径
 }

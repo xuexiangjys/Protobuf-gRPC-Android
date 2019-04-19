@@ -143,6 +143,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="上传2" />
+
+        <Button
+            android:id="@+id/btn_download1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="下载1" />
+
+        <Button
+            android:id="@+id/btn_download2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="下载2" />
     </LinearLayout>
 
     <TextView
