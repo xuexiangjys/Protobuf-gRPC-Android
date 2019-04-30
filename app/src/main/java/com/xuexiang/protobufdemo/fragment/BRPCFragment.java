@@ -21,10 +21,17 @@ import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.base.XPageFragment;
 import com.xuexiang.xutil.common.StringUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.grpc.ManagedChannel;
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * @author xuexiang
@@ -42,6 +49,8 @@ public class BRPCFragment extends XPageFragment {
     TextView tvGrpcResponse;
     @BindView(R.id.btn_send)
     Button btnSend;
+    @BindView(R.id.btn_send_json)
+    Button btnSendJson;
 
     EchoServiceGrpc.EchoServiceStub mStub;
 
@@ -52,7 +61,7 @@ public class BRPCFragment extends XPageFragment {
      */
     @Override
     protected int getLayoutId() {
-        return R.layout.layout_grpc_test;
+        return R.layout.fragment_brpc;
     }
 
     /**
@@ -61,8 +70,6 @@ public class BRPCFragment extends XPageFragment {
     @Override
     protected void initViews() {
         tvGrpcResponse.setMovementMethod(ScrollingMovementMethod.getInstance());
-        etPort.setText("8000");
-
     }
 
     /**
@@ -74,10 +81,10 @@ public class BRPCFragment extends XPageFragment {
     }
 
     @SingleClick
-    @OnClick(R.id.btn_send)
+    @OnClick({R.id.btn_send, R.id.btn_send_json})
     public void onViewClicked(View view) {
         String host = etHost.getText().toString();
-        int port = StringUtils.toInt(etPort.getText().toString(), 50051);
+        int port = StringUtils.toInt(etPort.getText().toString(), 8000);
         String message = etMessage.getText().toString();
 
         if (StringUtils.isEmpty(host)) {
@@ -91,9 +98,22 @@ public class BRPCFragment extends XPageFragment {
         }
 
         ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(etHost.getWindowToken(), 0);
-        btnSend.setEnabled(false);
         tvGrpcResponse.setText("");
 
+        switch(view.getId()) {
+            case R.id.btn_send:
+                doRequestByGrpc(host, port, message);
+                break;
+            case R.id.btn_send_json:
+                doRequestByHttp(host, port, message);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void doRequestByGrpc(String host, int port, String message) {
+        btnSend.setEnabled(false);
         //开始网络请求
         //构建通道
         final ManagedChannel channel = gRPCChannelUtils.newChannel(host, port);
@@ -123,5 +143,32 @@ public class BRPCFragment extends XPageFragment {
                 gRPCChannelUtils.shutdown(channel);
             }
         });
+    }
+
+    private void doRequestByHttp(String host, int port, String message) {
+        btnSendJson.setEnabled(false);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("message", message);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpUtils.postString()
+                .url("http://" + host + ":" + port + "/EchoService/Echo")
+                .content(jsonObject.toString())
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Response response, Exception e, int id) {
+                        tvGrpcResponse.setText(Log.getStackTraceString(e));
+                        btnSendJson.setEnabled(true);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        tvGrpcResponse.setText(response);
+                        btnSendJson.setEnabled(true);
+                    }
+                });
     }
 }

@@ -105,4 +105,6 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+
+    implementation 'com.qianwen:okhttp-utils:3.8.0'
 }

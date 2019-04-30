@@ -31,7 +31,7 @@ import io.grpc.ManagedChannel;
  * @author xuexiang
  * @since 2019/3/24 下午1:31
  */
-@Page(name = "普通请求")
+@Page(name = "gRPC-普通请求")
 public class CommonChannelFragment extends XPageFragment {
 
     @BindView(R.id.et_host)
