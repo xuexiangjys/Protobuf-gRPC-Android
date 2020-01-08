@@ -1,10 +1,10 @@
 package com.xuexiang.protobufdemo.fragment;
 
 import android.view.KeyEvent;
-import android.view.View;
 
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.base.XPageContainerListFragment;
+import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
 import com.xuexiang.xutil.common.ClickUtils;
 
@@ -12,7 +12,7 @@ import com.xuexiang.xutil.common.ClickUtils;
  * @author xuexiang
  * @since 2018/11/7 下午1:16
  */
-@Page(name = "ProtoBuf-gRPC-Android")
+@Page(name = "ProtoBuf-gRPC-Android", anim = CoreAnim.none)
 public class MainFragment extends XPageContainerListFragment {
 
     @Override

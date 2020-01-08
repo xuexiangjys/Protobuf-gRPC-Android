@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.xuexiang.xaop' //引用xaop插件
-apply plugin: 'com.google.protobuf'
 
 android {
     compileSdkVersion build_versions.target_sdk
@@ -59,23 +58,6 @@ android {
     }
 }
 
-protobuf {
-    protoc { artifact = 'com.google.protobuf:protoc:3.6.1' }
-    plugins {
-        javalite { artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0" }
-        grpc { artifact = 'io.grpc:protoc-gen-grpc-java:1.19.0' // CURRENT_GRPC_VERSION
-        }
-    }
-    generateProtoTasks {
-        all().each { task ->
-            task.plugins {
-                javalite {}
-                grpc { // Options added to --grpc_out
-                    option 'lite' }
-            }
-        }
-    }
-}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -84,20 +66,14 @@ dependencies {
     androidTestImplementation deps.runner
     androidTestImplementation deps.espresso.core
 
-    //protobuf
-    implementation 'io.grpc:grpc-okhttp:1.19.0'
-    implementation 'io.grpc:grpc-protobuf-lite:1.19.0'
-    implementation 'io.grpc:grpc-stub:1.19.0'
-    implementation 'javax.annotation:javax.annotation-api:1.2'
-
     //工具类
-    implementation 'com.github.xuexiangjys.XUtil:xutil-core:1.1.5'
+    implementation 'com.github.xuexiangjys.XUtil:xutil-core:1.1.6'
     //切片
-    implementation 'com.github.xuexiangjys.XAOP:xaop-runtime:1.0.1'  //添加依赖
+    implementation 'com.github.xuexiangjys.XAOP:xaop-runtime:1.0.5'  //添加依赖
 
     //XPage
-    implementation 'com.github.xuexiangjys.XPage:xpage-lib:2.2.4'
-    annotationProcessor 'com.github.xuexiangjys.XPage:xpage-compiler:2.2.4'
+    implementation 'com.github.xuexiangjys.XPage:xpage-lib:2.2.9'
+    annotationProcessor 'com.github.xuexiangjys.XPage:xpage-compiler:2.2.9'
     //ButterKnife的sdk
     implementation deps.butterknife.runtime
     annotationProcessor deps.butterknife.compiler
@@ -108,3 +84,6 @@ dependencies {
 
     implementation 'com.qianwen:okhttp-utils:3.8.0'
 }
+
+
+apply from: 'protobuf_grpc.gradle'
