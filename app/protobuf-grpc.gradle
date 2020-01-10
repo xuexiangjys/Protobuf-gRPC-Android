@@ -1,27 +1,25 @@
 apply plugin: 'com.google.protobuf'
 
-
 protobuf {
     protoc { artifact = 'com.google.protobuf:protoc:3.6.1' }
     plugins {
         javalite { artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0" }
-        grpc { artifact = 'io.grpc:protoc-gen-grpc-java:1.19.0' // CURRENT_GRPC_VERSION
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.19.0'
         }
     }
     generateProtoTasks {
         all().each { task ->
             task.plugins {
                 javalite {}
-                grpc { // Options added to --grpc_out
-                    option 'lite' }
+                grpc { option 'lite' }
             }
         }
     }
 }
 
-project.configurations.all { configuration ->
-    def name = configuration.name
-    if (name != "implementation" && name != "compile") {
+project.configurations.each { configuration ->
+    if (configuration.name != "implementation") {
         return
     }
     //为Project加入protobuf依赖

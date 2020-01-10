@@ -85,5 +85,5 @@ dependencies {
     implementation 'com.qianwen:okhttp-utils:3.8.0'
 }
 
-
-apply from: 'protobuf_grpc.gradle'
+//protobuf依赖脚本
+apply from: 'protobuf-grpc.gradle'
